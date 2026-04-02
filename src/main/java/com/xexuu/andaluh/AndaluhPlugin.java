@@ -19,6 +19,7 @@ import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -72,6 +73,8 @@ public final class AndaluhPlugin extends JavaPlugin implements Listener, Command
         if (debugEnabled) {
             String visible = PlainTextComponentSerializer.plainText().serialize(event.message());
             getLogger().info("Andaluh chat [" + event.getPlayer().getName() + "] orig='" + message + "' visible='" + visible + "' -> '" + translated + "'");
+            logCodepoints("orig", message);
+            logCodepoints("visible", visible);
         }
         Component updated = Component.text(translated, baseMessage.style());
         event.message(updated);
@@ -127,12 +130,34 @@ public final class AndaluhPlugin extends JavaPlugin implements Listener, Command
                     player.sendMessage(ChatColor.RED + "Uso: /andaluh test <texto>");
                     return true;
                 }
-                String original = String.join(" ", java.util.Arrays.copyOfRange(args, 1, args.length));
+                String original = String.join(" ", Arrays.copyOfRange(args, 1, args.length));
                 String result = Andaluh.epa(original, settings.mode.getVaf(), DEFAULT_VVF, true, false);
                 player.sendMessage(ChatColor.AQUA + "Andaluh (" + settings.mode.getLabel() + "): " + result);
+                if (debugEnabled) {
+                    getLogger().info("Andaluh test [" + player.getName() + "] input='" + original + "' -> '" + result + "'");
+                    logCodepoints("test", original);
+                }
+                return true;
+            case "debug":
+                if (args.length < 2) {
+                    player.sendMessage(ChatColor.RED + "Uso: /andaluh debug <on|off>");
+                    return true;
+                }
+                String toggle = args[1].toLowerCase(Locale.ROOT);
+                if ("on".equals(toggle)) {
+                    debugEnabled = true;
+                } else if ("off".equals(toggle)) {
+                    debugEnabled = false;
+                } else {
+                    player.sendMessage(ChatColor.RED + "Uso: /andaluh debug <on|off>");
+                    return true;
+                }
+                getConfig().set(CONFIG_DEBUG, debugEnabled);
+                saveConfig();
+                player.sendMessage(ChatColor.GREEN + "Andaluh debug: " + (debugEnabled ? "ON" : "OFF"));
                 return true;
             default:
-                player.sendMessage(ChatColor.RED + "Uso: /andaluh on|off | /andaluh modo <estandar|ceceo|seseo|heheo> | /andaluh test <texto>");
+                player.sendMessage(ChatColor.RED + "Uso: /andaluh on|off | /andaluh modo <estandar|ceceo|seseo|heheo> | /andaluh test <texto> | /andaluh debug <on|off>");
                 return true;
         }
     }
@@ -149,6 +174,7 @@ public final class AndaluhPlugin extends JavaPlugin implements Listener, Command
             addIfMatches(results, args[0], "off");
             addIfMatches(results, args[0], "modo");
             addIfMatches(results, args[0], "test");
+            addIfMatches(results, args[0], "debug");
             return results;
         }
 
@@ -226,5 +252,20 @@ public final class AndaluhPlugin extends JavaPlugin implements Listener, Command
         }
 
         saveConfig();
+    }
+
+    private void logCodepoints(String label, String text) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < text.length(); i++) {
+            int cp = text.codePointAt(i);
+            if (Character.isSupplementaryCodePoint(cp)) {
+                i++;
+            }
+            sb.append(text.substring(i, i + 1)).append(String.format(" U+%04X", cp));
+            if (i < text.length() - 1) {
+                sb.append(" ");
+            }
+        }
+        getLogger().info("Andaluh debug " + label + " codepoints: " + sb);
     }
 }

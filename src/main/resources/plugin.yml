@@ -7,7 +7,7 @@ author: xexuu
 commands:
   andaluh:
     description: "Enable or configure Andaluh chat transcription"
-    usage: "/andaluh on|off | /andaluh modo <estandar|ceceo|seseo|heheo> | /andaluh test <texto>"
+    usage: "/andaluh on|off | /andaluh modo <estandar|ceceo|seseo|heheo> | /andaluh test <texto> | /andaluh debug <on|off>"
     aliases: [epa]
 permissions:
   andaluh.use:
