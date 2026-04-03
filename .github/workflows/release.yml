@@ -35,4 +35,4 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/')
         uses: softprops/action-gh-release@v2
         with:
-          files: target/andaluh-plugin.jar
+          files: target/andaluh-chat.jar

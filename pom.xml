@@ -4,9 +4,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.xexuu</groupId>
-    <artifactId>andaluh-plugin</artifactId>
-    <version>0.1.10</version>
-    <name>Andaluh Plugin</name>
+    <artifactId>andaluh-chat</artifactId>
+    <version>1.0.0</version>
+    <name>Andaluh Chat</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -36,7 +36,7 @@
     </dependencies>
 
     <build>
-        <finalName>andaluh-plugin</finalName>
+        <finalName>andaluh-chat</finalName>
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
@@ -100,3 +100,4 @@
         </plugins>
     </build>
 </project>
+

@@ -1,4 +1,4 @@
-name: Andaluh
+name: AndaluhChat
 main: com.xexuu.andaluh.AndaluhPlugin
 version: ${project.version}
 api-version: "1.21"
