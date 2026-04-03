@@ -84,7 +84,7 @@ public final class AndaluhPlugin extends JavaPlugin implements Listener, Command
         return translated;
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onChat(AsyncChatEvent event) {
         PlayerSettings settings = getSettings(event.getPlayer());
         if (!settings.enabled) {
