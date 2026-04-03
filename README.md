@@ -1,48 +1,46 @@
-# Andaluh Minecraft Plugin
+# Andaluh Chat para Minecraft
 
-Plugin de Minecraft que transcribe el chat del espanol al andaluh (EPA) usando `andaluh-java`.
+Un plugin de Minecraft (para Paper/Spigot) que permite a los jugadores transcribir automáticamente sus mensajes en el chat del español estándar a la **Propuesta de Ortografía Andaluza (EPA)**. Este plugin utiliza internamente la librería `andaluh-java` (basada en el proyecto original `andaluh-py` de Andalugeeks).
 
-## Comandos
+## Características Principales
 
-- `/andaluh on` activa la transcripcion para tu usuario.
-- `/andaluh off` desactiva la transcripcion para tu usuario.
-- `/andaluh modo <estandar|ceceo|seseo|heheo>` cambia el modo de salida.
-- `/andaluh test <texto>` prueba la transliteracion sin usar el chat.
-- `/andaluh debug <on|off>` activa el debug en consola.
+- 🔄 **Transliteración en Tiempo Real**: Traduce el texto al andaluz conforme los jugadores envían sus mensajes.
+- 🎨 **Soporte para Múltiples Modos**: Los usuarios pueden elegir entre diferentes variaciones dialectales: `estándar` (uso de la cedilla `ç`), `seseo` (`s`), `ceceo` (`z`) o `heheo` (`h`).
+- 🛡️ **Protección de Enlaces y Expresiones**: El plugin es inteligente y evita corromper enlaces web (HTTP/HTTPS), menciones, hashtags o emojis de texto como `xD`, `xd`, `XD`.
+- 🌈 **Compatibilidad con Códigos de Color**: Soporte total para los colores de Minecraft (`&c`, `§a`, Códigos Hexadecimales `&#FF0000`, y formato MiniMessage `<red>`). ¡El andaluz respetará los colores que le pongas!
+- 🤝 **Compatible con Plugins de Formato**: Funciona a la perfección con plugins de gestión de chat como **EssentialsX Chat**, aplicando la transliteración antes de que se añadan los prefijos, rangos y sufijos.
+- 💾 **Persistencia Automática**: Las preferencias de cada jugador (si tienen el modo activado y qué variación dialectal usan) se guardan automáticamente en `config.yml`.
 
-Notas sobre modos:
+## Comandos Disponibles
 
-- `estandar`: usa `ç` como salida para /s/ (EPA por defecto).
-- `ceceo`: fuerza `z` como salida.
-- `seseo`: fuerza `s` como salida.
-- `heheo`: fuerza `h` como salida.
+El comando principal es `/andaluh` (alias: `/epa`). Requiere el permiso `andaluh.use` (concedido por defecto a todos los jugadores).
 
-Se acepta `zezeo` como alias de `ceceo`.
+- `/andaluh on` - Activa la transcripción para tu usuario.
+- `/andaluh off` - Desactiva la transcripción para tu usuario.
+- `/andaluh modo <estandar|ceceo|seseo|heheo>` - Cambia la forma en la que se representa el sonido de tu andaluz.
+- `/andaluh test <texto>` - Traduce un texto en tu pantalla para ver cómo quedaría sin llegar a enviarlo por el chat público.
+- `/andaluh debug <on|off>` - (Solo Administradores) Imprime en la consola del servidor un desglose avanzado del procesamiento de mensajes.
 
-El estado por jugador se guarda automaticamente en `config.yml`.
+## Instalación
 
-Para depurar, puedes activar `debug: true` en `config.yml` y el plugin imprimira los mensajes antes y despues de la transliteracion.
+1. Descarga el archivo `andaluh-chat.jar` de la pestaña de **Releases** en GitHub.
+2. Colócalo en la carpeta `plugins` de tu servidor de Minecraft.
+3. Reinicia o arranca el servidor. ¡Listo para usarse!
 
-## Compatibilidad y Java
+## Compilación Local
 
-- Objetivo: Paper 1.21.11 (Minecraft 1.21.x).
-- Requiere Java 21 para compilar y ejecutar.
+Para compilar el proyecto tú mismo desde el código fuente:
 
-## Build local
-
-```bash
-mvn -q -DskipTests package
-```
-
-El jar queda en `target/andaluh-plugin.jar`.
-
-## Releases en GitHub
-
-El workflow `Build and Release` crea una release automaticamente cuando haces push de un tag `v*`.
-
-Ejemplo:
+- **Objetivo**: Paper 1.21.x (Minecraft 1.21)
+- **Requisito**: Java 21+ instalado.
 
 ```bash
-git tag v0.1.0
-git push origin v0.1.0
+# Clonar el repositorio y su submódulo (andaluh-java)
+git clone --recursive https://github.com/xexuu/andaluh-chat.git
+cd andaluh-chat
+
+# Compilar con Maven
+mvn clean package -DskipTests
 ```
+
+El archivo compilado lo encontrarás en `target/andaluh-chat.jar`.
